@@ -1,47 +1,56 @@
-# KernelForge 🔥
+# KernelForge
 
-> **High-performance GPU kernel implementations across CUDA, Triton, and CuTe DSL**
+High-performance GPU kernel implementations across CUDA, Triton, CuTe DSL, and Pallas.
 
-A comprehensive toolkit for implementing, analyzing, and benchmarking GPU kernels with rigorous performance analysis. Documents the complete optimization journey from naive implementations to production-grade kernels.
+A toolkit for implementing, analyzing, and benchmarking GPU kernels with rigorous performance analysis. Documents the complete optimization journey from naive implementations to production-grade kernels.
 
-## What This Is
+## Overview
 
-A research-grade GPU kernel laboratory featuring:
-
-- **Cross-framework implementations** - FlashAttention and transformer primitives in CUDA, Triton, and CuTe DSL
-- **Performance archaeology** - Roofline modeling, PTX inspection, memory profiling, automated analysis
-- **Megakernel fusion** - Beyond isolated ops: fused transformer blocks, custom gradients
-- **Production targets** - PyTorch extensions, llama.cpp plugins, Rust/Candle bindings
-- **Hardware evolution** - Hopper/Blackwell features (TMA, wgmma, warp specialization)
-
-## 🚧 Work In Progress
-
-Active development. Core kernels exist but many features are incomplete or planned.
-
-Currently implemented:
-- Basic CUDA and Triton attention kernels
-- Preliminary benchmark infrastructure
-- Early profiling tools
-
-In development:
-- Complete kernel suite across all frameworks
-- Comprehensive analysis and visualization tools
-- Framework integrations
-
-Planned:
-- Advanced optimizations (quantization, sparsity, multi-GPU)
-- Production deployment guides
+- **Cross-framework kernels** -- FlashAttention and transformer primitives in CUDA, Triton, CuTe DSL, and Pallas
+- **Performance analysis** -- Roofline modeling, PTX inspection, memory profiling, automated reporting
+- **Megakernel fusion** -- Fused transformer blocks, custom gradients, beyond isolated ops
+- **Production targets** -- PyTorch extensions, llama.cpp plugins, Rust/Candle bindings
+- **Hardware evolution** -- Hopper/Blackwell features (TMA, wgmma, warp specialization)
 
 ## Repository Structure
+
 ```
 kernelforge/
-├── kernels/           # CUDA, Triton, CuTe implementations
-├── benchmarks/        # Performance measurement
-├── analysis/          # Profiling and visualization
-├── integrations/      # PyTorch, Rust, llama.cpp
-├── experiments/       # Research explorations
-└── docs/              # Guides and references
+├── kernels/
+│   ├── cuda/              # CUDA C++ kernel implementations
+│   ├── triton/            # Triton (Python DSL) kernels
+│   ├── cutedsl/           # CuTe DSL kernels
+│   └── pallas/            # JAX Pallas kernels
+├── benchmarks/            # Performance measurement scripts
+├── analysis/              # Profiling, roofline modeling, reporting
+├── educational/
+│   ├── notebooks/         # Jupyter notebooks for learning
+│   └── visualizations/    # Visual explanations of kernel behavior
+├── integrations/          # PyTorch, Rust/Candle, llama.cpp bindings
+├── experiments/           # Research explorations and prototypes
+├── tools/                 # Development utilities (autotuning, etc.)
+└── docs/                  # Guides and references
 ```
+
+## Status
+
+Work in progress. Currently implemented:
+
+- Analysis infrastructure (roofline modeling, metrics, profiling, report generation)
+- Autotuning tools for attention kernels
+
+Coming next: kernel implementations across all four frameworks.
+
+## Setup
+
+```bash
+pip install -r requirements.txt
+```
+
+Optional framework dependencies (install as needed):
+- `torch` for PyTorch/Triton kernels
+- `jax[cuda]` for Pallas kernels
+- CUDA toolkit for raw CUDA kernels
 
 ## License
 

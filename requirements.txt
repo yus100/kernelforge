@@ -1,0 +1,8 @@
+numpy
+matplotlib
+reportlab
+pynvml
+# Optional framework dependencies:
+# torch
+# jax[cuda]
+# triton

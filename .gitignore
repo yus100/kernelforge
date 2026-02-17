@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CUDA build artifacts
+*.o
+*.cubin
+*.fatbin
+*.ptx
+
+# Profiling outputs
+*.ncu-rep
+*.nsys-rep
+*.qdrep
+
+# Logs
+*.log
