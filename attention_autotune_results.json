@@ -1,0 +1,783 @@
+{
+  "pytorch": {
+    "all_results": [
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 7.4556714534759525,
+        "backward_time": 12.530490708351135,
+        "memory_usage": 0.0,
+        "throughput": 4.292034620849755,
+        "flops": 580567659.8023877,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.08664208650588989,
+        "backward_time": 0.3209469556808472,
+        "memory_usage": 0.0,
+        "throughput": 369.3355191512459,
+        "flops": 49958650611.51025,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 7.907062149047851,
+        "backward_time": 20.430647230148317,
+        "memory_usage": 0.0,
+        "throughput": 4.047015110897207,
+        "flops": 547424776.2832154,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.9190402030944824,
+        "backward_time": 1.1331331253051757,
+        "memory_usage": 0.0,
+        "throughput": 34.81893380969997,
+        "flops": 4709828485.658754,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 8.091923630237579,
+        "backward_time": 21.850112104415892,
+        "memory_usage": 0.0,
+        "throughput": 3.954560307566877,
+        "flops": 534918756.7496747,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.0223390102386474,
+        "backward_time": 1.355770182609558,
+        "memory_usage": 0.0,
+        "throughput": 31.30077173963082,
+        "flops": 4233939705.5675116,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 14.740041160583496,
+        "backward_time": 41.61465981006622,
+        "memory_usage": 0.0,
+        "throughput": 2.1709573027225693,
+        "flops": 587314740.9621822,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.16283441781997682,
+        "backward_time": 0.7533808946609497,
+        "memory_usage": 0.0,
+        "throughput": 196.51865022404485,
+        "flops": 53164702965.75064,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 16.610056817531586,
+        "backward_time": 42.58361549377442,
+        "memory_usage": 0.0,
+        "throughput": 1.926543680827427,
+        "flops": 521192886.4001634,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.9361211895942687,
+        "backward_time": 2.74126455783844,
+        "memory_usage": 0.0,
+        "throughput": 16.52789100805507,
+        "flops": 4471333459.148888,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 16.231177282333373,
+        "backward_time": 43.8882214307785,
+        "memory_usage": 0.0,
+        "throughput": 1.9715144159524405,
+        "flops": 533358936.6572105,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 8,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.9250818371772767,
+        "backward_time": 2.6273712396621702,
+        "memory_usage": 0.0,
+        "throughput": 16.62266994681182,
+        "flops": 4496974252.634223,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 29.278389394283295,
+        "backward_time": 81.63508067131042,
+        "memory_usage": 0.0,
+        "throughput": 1.0929562951385607,
+        "flops": 591360633.9077052,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.3202796936035156,
+        "backward_time": 1.2411569118499757,
+        "memory_usage": 0.0,
+        "throughput": 99.91267207721828,
+        "flops": 54059271498.597275,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 32.56458967924118,
+        "backward_time": 86.10059669017792,
+        "memory_usage": 0.0,
+        "throughput": 0.982662466046637,
+        "flops": 531684479.4466163,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 3.7701987504959105,
+        "backward_time": 5.116505789756775,
+        "memory_usage": 0.0,
+        "throughput": 8.487616202140776,
+        "flops": 4592353893.736399,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 32.66273884773254,
+        "backward_time": 85.97758946418762,
+        "memory_usage": 0.0,
+        "throughput": 0.9797096363895844,
+        "flops": 530086806.03041196,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 32,
+          "num_heads": 16,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 4.091205847263336,
+        "backward_time": 5.107762479782105,
+        "memory_usage": 0.0,
+        "throughput": 7.8216548359220885,
+        "flops": 4232025363.2756295,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 12.983991026878357,
+        "backward_time": 37.708518505096436,
+        "memory_usage": 0.0,
+        "throughput": 2.4645734838969244,
+        "flops": 664163199.6008303,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.1273709774017334,
+        "backward_time": 0.44154067039489747,
+        "memory_usage": 0.0,
+        "throughput": 251.23462701452513,
+        "flops": 67703720265.89036,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 14.016577422618866,
+        "backward_time": 38.85653104782104,
+        "memory_usage": 0.0,
+        "throughput": 2.283010968737695,
+        "flops": 615235000.95566,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.0710191965103149,
+        "backward_time": 1.4450023651123047,
+        "memory_usage": 0.0,
+        "throughput": 29.878082581773604,
+        "flops": 8051666162.565321,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 14.388247764110565,
+        "backward_time": 40.673286533355714,
+        "memory_usage": 0.0,
+        "throughput": 2.224037320223206,
+        "flops": 599342544.3722248,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.0469999074935914,
+        "backward_time": 1.5072103023529053,
+        "memory_usage": 0.0,
+        "throughput": 30.563517504604814,
+        "flops": 8236379929.243484,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 26.56669737100601,
+        "backward_time": 77.4961921930313,
+        "memory_usage": 0.0,
+        "throughput": 1.2045155464044888,
+        "flops": 649195412.1035295,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.20425907373428345,
+        "backward_time": 0.7964158773422241,
+        "memory_usage": 0.0,
+        "throughput": 156.66378690049365,
+        "flops": 84436777924.66762,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 31.162240731716157,
+        "backward_time": 84.47561914920807,
+        "memory_usage": 0.0,
+        "throughput": 1.026883794252677,
+        "flops": 553457570.5413395,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 2.1591964602470397,
+        "backward_time": 3.0456978559494017,
+        "memory_usage": 0.0,
+        "throughput": 14.820328112402885,
+        "flops": 7987683550.586557,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 28.701681900024415,
+        "backward_time": 78.83433902263641,
+        "memory_usage": 0.0,
+        "throughput": 1.11491724113815,
+        "flops": 600904786.97645,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 64,
+          "num_heads": 8,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 2.1790277481079103,
+        "backward_time": 2.8902835845947266,
+        "memory_usage": 0.0,
+        "throughput": 14.685448603298505,
+        "flops": 7914987802.691299,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 25.146988260746003,
+        "backward_time": 73.88945055007935,
+        "memory_usage": 0.0,
+        "throughput": 1.2725181905759835,
+        "flops": 684512333.5453194,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.0,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 0.17067958116531373,
+        "backward_time": 0.6683533191680908,
+        "memory_usage": 0.0,
+        "throughput": 187.4858127815888,
+        "flops": 100852272418.7361,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 26.205053210258484,
+        "backward_time": 76.03636465072631,
+        "memory_usage": 0.0,
+        "throughput": 1.221138524056611,
+        "flops": 656874209.6376078,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.1,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.1688391804695129,
+        "backward_time": 1.799896740913391,
+        "memory_usage": 0.0,
+        "throughput": 27.37759012077767,
+        "flops": 14726939260.442581,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp16"
+        },
+        "framework": "pytorch",
+        "forward_time": 26.516338670253752,
+        "backward_time": 74.95479612350464,
+        "memory_usage": 0.0,
+        "throughput": 1.2068031110153932,
+        "flops": 649162911.5942074,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      },
+      {
+        "config": {
+          "head_dim": 128,
+          "num_heads": 4,
+          "dropout_rate": 0.2,
+          "use_flash_attention": false,
+          "block_size": 128,
+          "causal": false,
+          "scale_factor": null,
+          "kernel_type": "standard",
+          "precision": "fp32"
+        },
+        "framework": "pytorch",
+        "forward_time": 1.1941019415855407,
+        "backward_time": 1.8766704082489014,
+        "memory_usage": 0.0,
+        "throughput": 26.7983820187999,
+        "flops": 14415371934.781248,
+        "power_consumption": 0.0,
+        "occupancy": 0.0
+      }
+    ],
+    "best_result": {
+      "config": {
+        "head_dim": 32,
+        "num_heads": 4,
+        "dropout_rate": 0.0,
+        "use_flash_attention": false,
+        "block_size": 128,
+        "causal": false,
+        "scale_factor": null,
+        "kernel_type": "standard",
+        "precision": "fp32"
+      },
+      "framework": "pytorch",
+      "forward_time": 0.08664208650588989,
+      "backward_time": 0.3209469556808472,
+      "memory_usage": 0.0,
+      "throughput": 369.3355191512459,
+      "flops": 49958650611.51025,
+      "power_consumption": 0.0,
+      "occupancy": 0.0
+    }
+  }
+}
