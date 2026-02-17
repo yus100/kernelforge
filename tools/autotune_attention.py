@@ -352,16 +352,24 @@ class AttentionAutotuner:
         self.best_config = None
         self.logger = logging.getLogger(__name__)
     
-    def generate_config_space(self) -> List[AttentionConfig]:
+    def generate_config_space(self, advanced: bool = False) -> List[AttentionConfig]:
         """Generate hyperparameter configuration space."""
         configs = []
         
-        # Hyperparameter grid
-        head_dims = [32, 64, 128]
-        num_heads_options = [4, 8, 16]
-        dropout_rates = [0.0, 0.1, 0.2]
-        kernel_types = ["standard"]
-        precisions = ["fp16", "fp32"]
+        # Hyperparameter grid (enhanced)
+        head_dims = [32, 64, 128, 256] if advanced else [64, 128]
+        num_heads_options = [4, 8, 16, 32] if advanced else [8, 16]
+        dropout_rates = [0.0, 0.05, 0.1, 0.15, 0.2] if advanced else [0.0, 0.1]
+        block_sizes = [64, 128, 256, 512] if advanced else [128, 256]
+        causal_options = [False, True] if advanced else [False]
+        scale_factors = [None, 0.1, 0.125, 0.2] if advanced else [None]
+
+        precisions = ["fp16", "fp32", "bf16"] if advanced else ["fp16", "fp32"]
+
+
+
+
+
         
         if TORCH_AVAILABLE:
             kernel_types.append("flash")
