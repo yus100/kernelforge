@@ -157,3 +157,56 @@ def _flash_attn_v1_fwd(
     # -- store output --
     o_ptrs = O_block_ptr + offs_m[:, None] * stride_om + offs_d[None, :] * stride_od
     tl.store(o_ptrs, acc.to(tl.float16), mask=offs_m[:, None] < seq_len)
+
+
+def flash_attention_v1(
+    Q: torch.Tensor,
+    K: torch.Tensor,
+    V: torch.Tensor,
+    config: Optional[FlashAttentionConfig] = None,
+) -> torch.Tensor:
+    """Launch FlashAttention v1 forward pass.
+
+    Args:
+        Q: Query tensor, shape (B, H, S, D), fp16.
+        K: Key tensor, same shape as Q.
+        V: Value tensor, same shape as Q.
+        config: Optional config; inferred from Q if not provided.
+
+    Returns:
+        O: Output tensor, shape (B, H, S, D), fp16.
+    """
+    B, H, S, D = Q.shape
+    assert Q.is_cuda and K.is_cuda and V.is_cuda, "Inputs must be on CUDA"
+    assert Q.dtype == torch.float16, "FlashAttention v1 expects fp16 inputs"
+
+    if config is None:
+        config = FlashAttentionConfig(
+            batch_size=B,
+            num_heads=H,
+            seq_len=S,
+            head_dim=D,
+            dtype=Q.dtype,
+        )
+
+    O = torch.empty_like(Q)
+
+    # Grid: (num_query_blocks, B * H)
+    num_m_blocks = triton.cdiv(S, config.BLOCK_M)
+    grid = (num_m_blocks, B * H)
+
+    _flash_attn_v1_fwd[grid](
+        Q, K, V, O,
+        Q.stride(0), Q.stride(1), Q.stride(2), Q.stride(3),
+        K.stride(0), K.stride(1), K.stride(2), K.stride(3),
+        V.stride(0), V.stride(1), V.stride(2), V.stride(3),
+        O.stride(0), O.stride(1), O.stride(2), O.stride(3),
+        S,
+        config.scale,
+        BLOCK_M=config.BLOCK_M,
+        BLOCK_N=config.BLOCK_N,
+        HEAD_DIM=D,
+        CAUSAL=config.causal,
+    )
+
+    return O
