@@ -103,3 +103,64 @@ def naive_attention_kernel(
     inv_sum = 1.0 / exp_sum
     for d in range(head_dim):
         O[row, d] = float(O[row, d]) * inv_sum
+
+
+def naive_attention(
+    Q: torch.Tensor,
+    K: torch.Tensor,
+    V: torch.Tensor,
+    config: Optional[NaiveAttentionConfig] = None,
+) -> torch.Tensor:
+    """Launch the naive fused attention kernel.
+
+    Args:
+        Q: Query tensor of shape (batch, heads, seq_len, head_dim).
+        K: Key tensor, same shape as Q.
+        V: Value tensor, same shape as Q.
+        config: Optional config overriding defaults inferred from Q.
+
+    Returns:
+        O: Output tensor of shape (batch, heads, seq_len, head_dim).
+    """
+    B, H, S, D = Q.shape
+
+    if config is None:
+        config = NaiveAttentionConfig(
+            batch_size=B,
+            num_heads=H,
+            seq_len=S,
+            head_dim=D,
+            dtype=Q.dtype,
+        )
+
+    O = torch.empty_like(Q)
+
+    # One thread-block per (batch, head), one thread per query row.
+    # Grid: (B * H,)   Block: (S,)
+    grid = (B * H,)
+    block = (S,)
+
+    # Reshape to merge batch and head dims for per-block indexing
+    Q_flat = Q.reshape(B * H, S, D)
+    K_flat = K.reshape(B * H, S, D)
+    V_flat = V.reshape(B * H, S, D)
+    O_flat = O.reshape(B * H, S, D)
+
+    # Build CuTe layouts: each block picks its (b*H + h) slice
+    row_layout = make_layout((S, D))
+
+    for bh in range(B * H):
+        q_cute = make_tensor(Q_flat[bh], row_layout)
+        k_cute = make_tensor(K_flat[bh], row_layout)
+        v_cute = make_tensor(V_flat[bh], row_layout)
+        o_cute = make_tensor(O_flat[bh], row_layout)
+
+        naive_attention_kernel[grid, block](
+            q_cute, k_cute, v_cute, o_cute,
+            config.scale,
+            S,
+            D,
+            config.causal,
+        )
+
+    return O
