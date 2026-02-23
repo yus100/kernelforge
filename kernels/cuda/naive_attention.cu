@@ -127,3 +127,89 @@ __global__ void naive_attention_kernel(
         O_row[d] *= inv_sum;
     }
 }
+
+// ---------------------------------------------------------------------------
+// Host launch wrapper
+// ---------------------------------------------------------------------------
+
+/**
+ * launch_naive_attention: allocates output and launches the kernel.
+ *
+ * Q, K, V, O are device pointers of shape (B*H, S, D) in row-major fp32.
+ * Caller is responsible for memory allocation of O (same size as Q).
+ */
+void launch_naive_attention(
+    const float* Q,
+    const float* K,
+    const float* V,
+    float*       O,
+    const NaiveAttentionConfig& cfg
+) {
+    int S = cfg.seq_len;
+    int BH = cfg.batch_size * cfg.num_heads;
+
+    // One thread per query row, one block-row per (batch, head).
+    dim3 block(1);
+    dim3 grid(S, BH);
+
+    naive_attention_kernel<<<grid, block>>>(
+        Q, K, V, O,
+        S, cfg.head_dim, cfg.scale, cfg.causal
+    );
+
+    // Check for launch errors (educational builds only; remove in production)
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        fprintf(stderr, "naive_attention_kernel launch failed: %s\n",
+                cudaGetErrorString(err));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Minimal test / example (compile with: nvcc -o naive_attn naive_attention.cu)
+// ---------------------------------------------------------------------------
+
+#ifdef NAIVE_ATTN_MAIN
+int main() {
+    int B = 1, H = 4, S = 128, D = 64;
+    NaiveAttentionConfig cfg = make_default_config(B, H, S, D);
+
+    size_t size = (size_t)B * H * S * D * sizeof(float);
+
+    float *h_Q, *h_K, *h_V, *h_O;
+    h_Q = (float*)malloc(size);
+    h_K = (float*)malloc(size);
+    h_V = (float*)malloc(size);
+    h_O = (float*)malloc(size);
+
+    // Fill with small random values
+    for (size_t i = 0; i < (size_t)B * H * S * D; i++) {
+        h_Q[i] = 0.01f * (float)(i % 37 - 18);
+        h_K[i] = 0.01f * (float)(i % 41 - 20);
+        h_V[i] = 0.01f * (float)(i % 31 - 15);
+    }
+
+    float *d_Q, *d_K, *d_V, *d_O;
+    cudaMalloc(&d_Q, size);
+    cudaMalloc(&d_K, size);
+    cudaMalloc(&d_V, size);
+    cudaMalloc(&d_O, size);
+
+    cudaMemcpy(d_Q, h_Q, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_K, h_K, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_V, h_V, size, cudaMemcpyHostToDevice);
+
+    launch_naive_attention(d_Q, d_K, d_V, d_O, cfg);
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(h_O, d_O, size, cudaMemcpyDeviceToHost);
+
+    printf("O[0][0][0][0..3] = %.6f %.6f %.6f %.6f\n",
+           h_O[0], h_O[1], h_O[2], h_O[3]);
+
+    cudaFree(d_Q); cudaFree(d_K); cudaFree(d_V); cudaFree(d_O);
+    free(h_Q); free(h_K); free(h_V); free(h_O);
+
+    return 0;
+}
+#endif
