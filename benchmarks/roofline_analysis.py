@@ -184,3 +184,45 @@ def point_from_benchmark(
     ai = flops / bytes_accessed if bytes_accessed > 0 else 0.0
     gflops = (flops / avg_ms) * 1e-6 if avg_ms > 0 else 0.0
     return KernelPoint(name=kernel_name, arithmetic_intensity=ai, achieved_gflops=gflops)
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="KernelForge roofline analysis")
+    parser.add_argument("--gpu", type=str, default="h100",
+                        choices=list(GPU_PRESETS.keys()),
+                        help="GPU preset for peak ceilings")
+    parser.add_argument("--output", type=str, default="roofline.png",
+                        help="Output PNG path")
+    parser.add_argument("--show", action="store_true",
+                        help="Show interactive plot window")
+    parser.add_argument("--demo", action="store_true",
+                        help="Plot with example kernel points for demonstration")
+    args = parser.parse_args()
+
+    gpu = GPU_PRESETS[args.gpu]
+
+    if args.demo:
+        # Example points for illustration
+        kernels = [
+            KernelPoint("naive_attention_cuda", arithmetic_intensity=5.0, achieved_gflops=120.0),
+            KernelPoint("naive_attention_cute", arithmetic_intensity=8.0, achieved_gflops=350.0),
+            KernelPoint("flash_attention_v1", arithmetic_intensity=45.0, achieved_gflops=4500.0),
+        ]
+    else:
+        # No real data yet; show empty roofline
+        kernels = []
+        print("No kernel data provided. Use --demo for example points,")
+        print("or integrate with benchmark_suite for real measurements.")
+
+    plot_roofline(kernels, gpu=gpu, save_path=args.output, show=args.show)
+    print(f"Roofline saved to {args.output}")
+
+
+if __name__ == "__main__":
+    main()
