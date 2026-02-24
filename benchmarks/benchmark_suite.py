@@ -218,3 +218,83 @@ class BenchmarkRunner:
     def run_all(self, config: Optional[BenchmarkConfig] = None) -> List[BenchmarkResult]:
         """Benchmark every registered kernel."""
         return [self.run(name, config) for name in list_kernels()]
+
+
+# ---------------------------------------------------------------------------
+# Pretty-print
+# ---------------------------------------------------------------------------
+
+def print_result(r: BenchmarkResult):
+    """Print a single benchmark result as a formatted line."""
+    if r.status != "ok":
+        print(f"  {r.kernel_name:30s}  [{r.status}] {r.error_msg}")
+        return
+    print(
+        f"  {r.kernel_name:30s}  "
+        f"avg={r.avg_ms:8.3f} ms  "
+        f"min={r.min_ms:8.3f} ms  "
+        f"max={r.max_ms:8.3f} ms  "
+        f"{r.gflops:8.1f} GFLOP/s  "
+        f"{r.gbps:8.1f} GB/s"
+    )
+
+
+def print_results(results: List[BenchmarkResult]):
+    """Print a table of benchmark results."""
+    print("=" * 100)
+    print(f"  {'Kernel':30s}  {'avg':>11s}  {'min':>11s}  {'max':>11s}  {'GFLOP/s':>10s}  {'GB/s':>9s}")
+    print("-" * 100)
+    for r in results:
+        print_result(r)
+    print("=" * 100)
+
+
+# ---------------------------------------------------------------------------
+# CLI entry point
+# ---------------------------------------------------------------------------
+
+def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="KernelForge benchmark suite")
+    parser.add_argument("--kernel", type=str, default=None,
+                        help="Kernel name to benchmark (omit to run all)")
+    parser.add_argument("--list", action="store_true",
+                        help="List available kernels and exit")
+    parser.add_argument("--batch-size", type=int, default=2)
+    parser.add_argument("--num-heads", type=int, default=8)
+    parser.add_argument("--seq-len", type=int, default=1024)
+    parser.add_argument("--head-dim", type=int, default=64)
+    parser.add_argument("--causal", action="store_true")
+    parser.add_argument("--warmup", type=int, default=10)
+    parser.add_argument("--iters", type=int, default=100)
+    args = parser.parse_args()
+
+    runner = BenchmarkRunner()
+
+    if args.list:
+        print("Available kernels:")
+        for name in list_kernels():
+            print(f"  - {name}")
+        return
+
+    cfg = BenchmarkConfig(
+        batch_size=args.batch_size,
+        num_heads=args.num_heads,
+        seq_len=args.seq_len,
+        head_dim=args.head_dim,
+        causal=args.causal,
+        warmup_iters=args.warmup,
+        bench_iters=args.iters,
+    )
+
+    if args.kernel:
+        result = runner.run(args.kernel, cfg)
+        print_result(result)
+    else:
+        results = runner.run_all(cfg)
+        print_results(results)
+
+
+if __name__ == "__main__":
+    main()
