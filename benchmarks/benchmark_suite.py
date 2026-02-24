@@ -50,3 +50,171 @@ class BenchmarkResult:
     gbps: float = 0.0      # effective memory bandwidth GB/s
     status: str = "ok"     # "ok", "error", "skipped"
     error_msg: str = ""
+
+
+# ---------------------------------------------------------------------------
+# Kernel registry
+# ---------------------------------------------------------------------------
+
+# Maps kernel name -> callable(Q, K, V, **kwargs) -> O
+_REGISTRY: Dict[str, Callable] = {}
+
+
+def register_kernel(name: str, fn: Callable):
+    """Register a kernel function under the given name."""
+    _REGISTRY[name] = fn
+
+
+def list_kernels() -> List[str]:
+    """Return sorted list of registered kernel names."""
+    return sorted(_REGISTRY.keys())
+
+
+def _populate_registry():
+    """Lazily import and register all available kernels."""
+    # Triton FlashAttention v1
+    try:
+        from kernels.triton.flash_attention_v1 import (
+            flash_attention_v1,
+            FlashAttentionConfig,
+        )
+
+        def _triton_flash_v1(Q, K, V, causal=False, **kw):
+            cfg = FlashAttentionConfig(
+                batch_size=Q.shape[0],
+                num_heads=Q.shape[1],
+                seq_len=Q.shape[2],
+                head_dim=Q.shape[3],
+                causal=causal,
+            )
+            return flash_attention_v1(Q, K, V, cfg)
+
+        register_kernel("flash_attention_v1", _triton_flash_v1)
+    except ImportError:
+        pass
+
+    # CuTe DSL naive attention
+    try:
+        from kernels.cutedsl.naive_attention import (
+            naive_attention,
+            NaiveAttentionConfig,
+        )
+
+        def _cute_naive(Q, K, V, causal=False, **kw):
+            cfg = NaiveAttentionConfig(
+                batch_size=Q.shape[0],
+                num_heads=Q.shape[1],
+                seq_len=Q.shape[2],
+                head_dim=Q.shape[3],
+                causal=causal,
+            )
+            return naive_attention(Q, K, V, cfg)
+
+        register_kernel("naive_attention_cute", _cute_naive)
+    except ImportError:
+        pass
+
+    # CUDA naive attention (requires pybind/ctypes wrapper, placeholder)
+    # Registered as a stub that raises NotImplementedError.
+    def _cuda_naive_stub(Q, K, V, **kw):
+        raise NotImplementedError(
+            "CUDA naive_attention requires compilation. "
+            "See kernels/cuda/naive_attention.cu for the source."
+        )
+
+    register_kernel("naive_attention_cuda", _cuda_naive_stub)
+
+
+# ---------------------------------------------------------------------------
+# Benchmark runner
+# ---------------------------------------------------------------------------
+
+def _attention_flops(B: int, H: int, S: int, D: int, causal: bool) -> int:
+    """Approximate FLOPs for attention: Q@K^T (2*S*S*D) + softmax(S*S) + P@V (2*S*S*D)."""
+    qk_flops = 2 * S * S * D
+    pv_flops = 2 * S * S * D
+    softmax_flops = 5 * S * S  # exp, sub, div, sum, max (rough)
+    total = B * H * (qk_flops + pv_flops + softmax_flops)
+    if causal:
+        total //= 2  # roughly half the work
+    return total
+
+
+def _attention_bytes(B: int, H: int, S: int, D: int, dtype: torch.dtype) -> int:
+    """Bytes read + written: Q, K, V read + O written, each (B, H, S, D)."""
+    elem = torch.tensor([], dtype=dtype).element_size()
+    return 4 * B * H * S * D * elem  # 3 reads + 1 write
+
+
+class BenchmarkRunner:
+    """Runs a named kernel with CUDA event timing and reports results."""
+
+    def __init__(self):
+        if not _REGISTRY:
+            _populate_registry()
+
+    def run(
+        self,
+        kernel_name: str,
+        config: Optional[BenchmarkConfig] = None,
+    ) -> BenchmarkResult:
+        """Benchmark a single kernel by name."""
+        if config is None:
+            config = BenchmarkConfig()
+
+        result = BenchmarkResult(kernel_name=kernel_name, config=config)
+
+        if kernel_name not in _REGISTRY:
+            result.status = "error"
+            result.error_msg = f"Unknown kernel: {kernel_name}. Use list_kernels()."
+            return result
+
+        fn = _REGISTRY[kernel_name]
+        B, H, S, D = config.batch_size, config.num_heads, config.seq_len, config.head_dim
+
+        # Allocate inputs
+        Q = torch.randn(B, H, S, D, dtype=config.dtype, device=config.device)
+        K = torch.randn(B, H, S, D, dtype=config.dtype, device=config.device)
+        V = torch.randn(B, H, S, D, dtype=config.dtype, device=config.device)
+
+        # Warmup
+        try:
+            for _ in range(config.warmup_iters):
+                fn(Q, K, V, causal=config.causal)
+            torch.cuda.synchronize()
+        except NotImplementedError as e:
+            result.status = "skipped"
+            result.error_msg = str(e)
+            return result
+        except Exception as e:
+            result.status = "error"
+            result.error_msg = str(e)
+            return result
+
+        # Timed iterations using CUDA events
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+        times_ms = []
+
+        for _ in range(config.bench_iters):
+            start_event.record()
+            fn(Q, K, V, causal=config.causal)
+            end_event.record()
+            torch.cuda.synchronize()
+            times_ms.append(start_event.elapsed_time(end_event))
+
+        result.avg_ms = sum(times_ms) / len(times_ms)
+        result.min_ms = min(times_ms)
+        result.max_ms = max(times_ms)
+
+        # Throughput
+        flops = _attention_flops(B, H, S, D, config.causal)
+        nbytes = _attention_bytes(B, H, S, D, config.dtype)
+        result.gflops = (flops / result.avg_ms) * 1e-6   # GFLOP/s
+        result.gbps = (nbytes / result.avg_ms) * 1e-6     # GB/s
+
+        return result
+
+    def run_all(self, config: Optional[BenchmarkConfig] = None) -> List[BenchmarkResult]:
+        """Benchmark every registered kernel."""
+        return [self.run(name, config) for name in list_kernels()]
